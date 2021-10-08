@@ -8,10 +8,12 @@ typedef struct
     float** index;
 }Matrix;
 
+enum Bool{False, True};
+
 float getfloat();
 int getint();
 void iniMatrix(Matrix*, int, int);
-int checkMatrix(Matrix);
+enum Bool checkMatrix(Matrix);
 void getMatrix(Matrix*);
 void printMatrix(Matrix);
 void addMatrix(Matrix, Matrix, Matrix*);
@@ -24,45 +26,44 @@ void powerMatrix(Matrix, int, Matrix*);
 float getfloat()
 {
     int character;
-    char bufferstring[20];
+    char bufferString[20];
     int i = 0;
     while((character = getchar()) != '\n')
     {
-        bufferstring[i] = (char) character;
+        bufferString[i] = (char) character;
         ++i;
     }
-    bufferstring[i] = '\0';
-    return strtof(bufferstring, NULL);
+    bufferString[i] = '\0';
+    return strtof(bufferString, NULL);
 }
 
 int getint()
 {
     int character;
-    char bufferstring[20];
+    char bufferString[20];
     int i = 0;
     while((character = getchar()) != '\n')
     {
-        bufferstring[i] = (char) character;
+        bufferString[i] = (char) character;
         ++i;
         if(i >= 18)
             break;
     }
-    bufferstring[i] = '\0';
-    return (int) strtol(bufferstring, NULL, 10);
+    bufferString[i] = '\0';
+    return (int) strtol(bufferString, NULL, 10);
 }
 
-int checkMatrix(Matrix input)
+enum Bool checkMatrix(Matrix input)
 {
-    if(input.row == 0 || input.col == 0 || input.index == NULL)
-        return 0;
+    if(input.row <= 0 || input.col <= 0 || input.index == NULL)
+        return False;
 
     for(int row = 0; row < input.row; row++)
     {
         if(input.index[row] == NULL)
-            return 0;
+            return False;
     }
-
-    return 1;
+    return True;
 }
 
 void iniMatrix(Matrix* ini, int row, int col)
@@ -77,6 +78,7 @@ void iniMatrix(Matrix* ini, int row, int col)
     if(!checkMatrix(*ini))
     {
         printf("Initialisation failed! Cannot allocate memory");
+        exit(1);
     }
 }
 
@@ -140,18 +142,18 @@ void copyMatrix(Matrix from, Matrix* to)
             to->index[current_row][current_col] = from.index[current_row][current_col];
 }
 
-void multiplyMatrix(Matrix base, Matrix mult, Matrix* results)
+void multiplyMatrix(Matrix base, Matrix multiply, Matrix* results)
 {
     float buffer;
-    iniMatrix(results, base.row, mult.col);
+    iniMatrix(results, base.row, multiply.col);
     for(int resultsRow = 0; resultsRow < base.row; ++resultsRow)
     {
-        for(int resultsCol = 0; resultsCol < mult.col; ++resultsCol)
+        for(int resultsCol = 0; resultsCol < multiply.col; ++resultsCol)
         {
             buffer = 0;
             for(int index = 0; index < base.col; index++)
             {
-                buffer = buffer + (base.index[resultsRow][index] * mult.index[index][resultsCol]);
+                buffer = buffer + (base.index[resultsRow][index] * multiply.index[index][resultsCol]);
             }
             results->index[resultsRow][resultsCol] = buffer;
         }
