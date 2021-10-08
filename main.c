@@ -24,11 +24,6 @@ int calculator(Matrix input)
                 choice = getint();
             }
             getMatrix(&input2);
-            if(!checkMatrix(input2))
-            {
-                printf("Invalid matrix input!");
-                return 1;
-            }
             if(input.col != input2.col || input.row != input2.row)
             {
                 printf("Error: cannot add or subtract matrices of different dimensions!");
@@ -47,11 +42,6 @@ int calculator(Matrix input)
         case 2: // multiplication
             printf("Input the matrix you want to multiply with:\n" );
             getMatrix(&input2);
-            if(!checkMatrix(input2))
-            {
-                printf("Invalid matrix input!");
-                return 1;
-            }
             if(input.col != input2.row)
             {
                 printf("Incompatible matrix! Cannot multiply %ix%i matrix with %ix%i matrix!",
@@ -93,11 +83,8 @@ int calculator(Matrix input)
             return 0;
         default:
             printf("Selection error\nPlease select again\n");
-            calculator(input);
+            return calculator(input);
     }
-
-    printf("Calculator function finished.\n");
-    printf("Exiting.\n");
     return 0;
 }
 
@@ -105,11 +92,6 @@ int main(void)
 {
     Matrix matrix;
     getMatrix(&matrix);
-    if(!checkMatrix(matrix))
-    {
-        printf("Invalid matrix input!");
-        return 1;
-    }
     printf("The matrix you just input is:\n");
     printMatrix(matrix);
     return calculator(matrix);

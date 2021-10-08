@@ -55,13 +55,25 @@ int getint()
 
 enum Bool checkMatrix(Matrix input)
 {
-    if(input.row <= 0 || input.col <= 0 || input.index == NULL)
+    if(input.row <= 0 || input.col <= 0)
+    {
+        printf("Invalid row and/or column\n");
         return False;
+    }
+
+    if(input.index == NULL)
+    {
+        printf("Allocation Error\n");
+        return False;
+    }
 
     for(int row = 0; row < input.row; row++)
     {
         if(input.index[row] == NULL)
+        {
+            printf("Allocation Error\n");
             return False;
+        }
     }
     return True;
 }
@@ -77,7 +89,6 @@ void iniMatrix(Matrix* ini, int row, int col)
     }
     if(!checkMatrix(*ini))
     {
-        printf("Initialisation failed! Cannot allocate memory");
         exit(1);
     }
 }
