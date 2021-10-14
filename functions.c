@@ -60,7 +60,6 @@ enum Bool checkMatrix(Matrix input)
         printf("Invalid row and/or column\n");
         return False;
     }
-
     if(input.index == NULL)
     {
         printf("Allocation Error\n");
@@ -147,7 +146,6 @@ void subMatrix(Matrix base1, Matrix base2, Matrix* results)
 
 void copyMatrix(Matrix from, Matrix* to)
 {
-    iniMatrix(to, from.row, from.col);
     for(int current_row = 0; current_row < from.row; ++current_row)
         for(int current_col = 0; current_col < from.col; ++current_col)
             to->index[current_row][current_col] = from.index[current_row][current_col];
