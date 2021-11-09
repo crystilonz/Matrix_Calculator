@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
+  "/Users/muang/Desktop/Muang/CLionProjects/Matrix_Calculator/functions.c" "/Users/muang/Desktop/Muang/CLionProjects/Matrix_Calculator/cmake-build-debug/CMakeFiles/main.dir/functions.c.o"
   "/Users/muang/Desktop/Muang/CLionProjects/Matrix_Calculator/main.c" "/Users/muang/Desktop/Muang/CLionProjects/Matrix_Calculator/cmake-build-debug/CMakeFiles/main.dir/main.c.o"
   )
 set(CMAKE_C_COMPILER_ID "AppleClang")

@@ -78,6 +78,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/muang/Desktop/Muang/CLionProjects/Matrix_Calculator/functions.c">
+			<Option target="main"/>
+		</Unit>
 		<Unit filename="/Users/muang/Desktop/Muang/CLionProjects/Matrix_Calculator/main.c">
 			<Option target="main"/>
 		</Unit>

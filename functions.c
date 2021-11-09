@@ -1,37 +1,21 @@
+#include "matrix.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct
-{
-    int row;
-    int col;
-    float** index;
-}Matrix;
-
-enum Bool{False, True};
-
-float getfloat();
-int getint();
-void iniMatrix(Matrix*, int, int);
-enum Bool checkMatrix(Matrix);
-void getMatrix(Matrix*);
-void printMatrix(Matrix);
-void addMatrix(Matrix, Matrix, Matrix*);
-void subMatrix(Matrix, Matrix, Matrix*);
-void scalarMatrix(Matrix, float, Matrix*);
-void copyMatrix(Matrix, Matrix*);
-void powerMatrix(Matrix, int, Matrix*);
-
+#define MAX_LINE 1024
+#define MAX_INPUT 50
 
 float getfloat()
 {
     int character;
-    char bufferString[20];
+    char bufferString[MAX_INPUT + 1];
     int i = 0;
     while((character = getchar()) != '\n')
     {
         bufferString[i] = (char) character;
         ++i;
+        if(i >= MAX_INPUT)
+            break;
     }
     bufferString[i] = '\0';
     return strtof(bufferString, NULL);
@@ -40,13 +24,13 @@ float getfloat()
 int getint()
 {
     int character;
-    char bufferString[20];
+    char bufferString[MAX_INPUT + 1];
     int i = 0;
     while((character = getchar()) != '\n')
     {
         bufferString[i] = (char) character;
         ++i;
-        if(i >= 18)
+        if(i >= MAX_INPUT)
             break;
     }
     bufferString[i] = '\0';
@@ -186,5 +170,70 @@ void powerMatrix(Matrix base, int exponent, Matrix* results)
     {
         multiplyMatrix(bufferMatrix, base, results);
         copyMatrix(*results, &bufferMatrix);
+    }
+}
+
+// file handling section
+void readMatrix(FILE* csv, Matrix* matrix)
+{
+    // csv in format of row, column, values(1;2;3;4;5..)
+    char line_buffer[MAX_LINE + 1];
+    char* itr;
+    fgets(line_buffer, MAX_LINE, csv);
+
+    // get row
+    int row = (int) strtol(line_buffer, &itr, 10);
+
+    // forward by one character then get column
+    if(*itr != ',')
+    {
+        printf("Error getting matrix");
+        return;
+    }
+    itr += 1;
+    int column = (int) strtol(itr, &itr, 10);
+
+    // forward by one character then get values
+    if(*itr != ',')
+    {
+        printf("Error getting matrix");
+        return;
+    }
+    itr += 1;
+    iniMatrix(matrix, row, column);
+    for(int i = 0; i < matrix->row; i++)
+    {
+        for(int j = 0; j < matrix->col; j++)
+        {
+            if(*itr != '\0' && *itr != '\n')
+            {
+                matrix->index[i][j] = strtof(itr, &itr);
+                itr += 1;
+            }
+        }
+    }
+}
+
+void writeMatrix(FILE* csv, Matrix matrix)
+{
+    char row[MAX_INPUT + 1];
+    char col[MAX_INPUT + 1];
+    sprintf(row, "%d", matrix.row);
+    sprintf(col, "%d", matrix.col);
+    fputc('\n', csv);
+    fputs(row, csv);
+    fputc(',', csv);
+    fputs(col, csv);
+    fputc(',', csv);
+
+    char buffer[MAX_INPUT + 1];
+    for(int i = 0; i < matrix.row; i++)
+    {
+        for(int j = 0; j < matrix.col; j++)
+        {
+            sprintf(buffer, "%.3f", matrix.index[i][j]);
+            fputs(buffer, csv);
+            fputc(';', csv);
+        }
     }
 }

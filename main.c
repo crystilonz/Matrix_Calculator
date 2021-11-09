@@ -1,4 +1,8 @@
-#include "functions.c"
+#include "matrix.h"
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_LINE 1024
 
 int calculator(Matrix input)
 {
@@ -90,9 +94,100 @@ int calculator(Matrix input)
 
 int main(void)
 {
+    /*
     Matrix matrix;
     getMatrix(&matrix);
     printf("The matrix you just input is:\n");
     printMatrix(matrix);
-    return calculator(matrix);
+    return calculator(matrix); */
+
+    FILE* matrixFile = fopen("matrix.csv", "r");
+    char csvHeader[MAX_LINE];
+    fgets(csvHeader, MAX_LINE, matrixFile);
+    if(matrixFile == NULL || strcmp(csvHeader, "row,col,values\n") != 0)
+        return 1;
+    FILE* operandFile = fopen("operand.csv", "r");
+    char operandHeader[MAX_LINE];
+    fgets(operandHeader, 1024, operandFile);
+    if(operandFile == NULL || strcmp(operandHeader, "row,col,values\n") != 0)
+        return 1;
+
+    FILE* outputFile = fopen("output.csv", "w");
+    fputs("row,col,values", outputFile);
+
+    Matrix matrix;
+    Matrix operand;
+    Matrix output;
+
+    printf("What do you want to do with the matrix?\n");
+    printf("1) Add\n2) Subtract\n3) Multiply with scalar\n4) Multiply with matrix\n5) Exponentiation\nSelection :");
+    int selection = getint();
+    switch(selection)
+    {
+        case 1:
+            printf("Addition\n");
+            readMatrix(operandFile, &operand);
+            while(!feof(matrixFile))
+            {
+                readMatrix(matrixFile, &matrix);
+                addMatrix(matrix, operand, &output);
+                writeMatrix(outputFile, output);
+            }
+            break;
+
+        case 2:
+            printf("Subtraction\n");
+            readMatrix(operandFile, &operand);
+            while(!feof(matrixFile))
+            {
+                readMatrix(matrixFile, &matrix);
+                subMatrix(matrix, operand, &output);
+                writeMatrix(outputFile, output);
+            }
+            break;
+
+        case 3:
+            printf("Scalar Multiplication\n");
+            printf("Input scalar: ");
+            float scalar = getfloat();
+            while(!feof(matrixFile))
+            {
+                readMatrix(matrixFile, &matrix);
+                scalarMatrix(matrix, scalar, &output);
+                writeMatrix(outputFile, output);
+            }
+            break;
+
+        case 4:
+            printf("Matrix Multiplication\n");
+            readMatrix(operandFile, &operand);
+            while(!feof(matrixFile))
+            {
+                readMatrix(matrixFile, &matrix);
+                multiplyMatrix(matrix, operand, &output);
+                writeMatrix(outputFile, output);
+            }
+            break;
+
+        case 5:
+            printf("Exponentiation\n");
+            printf("Input the power(int): ");
+            int power = getint();
+            while(!feof(matrixFile))
+            {
+                readMatrix(matrixFile, &matrix);
+                powerMatrix(matrix, power, &output);
+                writeMatrix(outputFile, output);
+            }
+            break;
+
+        default:
+            printf("Invalid Selection");
+    }
+
+    fclose(matrixFile);
+    fclose(operandFile);
+    fclose(outputFile);
+
+    return 0;
 }
