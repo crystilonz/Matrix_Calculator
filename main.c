@@ -1,9 +1,9 @@
 #include "matrix.h"
-#include <stdio.h>
 #include <string.h>
 
 #define MAX_LINE 1024
 
+/*
 int calculator(Matrix input)
 {
     Matrix input2;
@@ -91,6 +91,7 @@ int calculator(Matrix input)
     }
     return 0;
 }
+*/
 
 int main(void)
 {
@@ -103,91 +104,179 @@ int main(void)
 
     FILE* matrixFile = fopen("matrix.csv", "r");
     char csvHeader[MAX_LINE];
+    if(matrixFile == NULL)
+        return 1;
     fgets(csvHeader, MAX_LINE, matrixFile);
-    if(matrixFile == NULL || strcmp(csvHeader, "row,col,values\n") != 0)
+    if(strcmp(csvHeader, "row,col,values\n") != 0)
         return 1;
     FILE* operandFile = fopen("operand.csv", "r");
-    char operandHeader[MAX_LINE];
-    fgets(operandHeader, 1024, operandFile);
-    if(operandFile == NULL || strcmp(operandHeader, "row,col,values\n") != 0)
+    if(operandFile == NULL)
+        return 1;
+    fgets(csvHeader, MAX_LINE, operandFile);
+    if(strcmp(csvHeader, "row,col,values\n") != 0)
         return 1;
 
-    FILE* outputFile = fopen("output.csv", "w");
-    fputs("row,col,values", outputFile);
+    FILE* outputFile;
 
     Matrix matrix;
     Matrix operand;
     Matrix output;
 
     printf("What do you want to do with the matrix?\n");
-    printf("1) Add\n2) Subtract\n3) Multiply with scalar\n4) Multiply with matrix\n5) Exponentiation\nSelection :");
+    printf("1) Add\n2) Subtract\n3) Multiply with scalar\n4) Multiply with matrix\n5) Exponentiation\n"
+           "6) Read CSV\n7) Create CSV\n8) Exit\nSelection: ");
     int selection = getint();
     switch(selection)
     {
         case 1:
             printf("Addition\n");
             readMatrix(operandFile, &operand);
+            outputFile = fopen("output.csv", "w");
+            fputs("row,col,values", outputFile);
             while(!feof(matrixFile))
             {
                 readMatrix(matrixFile, &matrix);
-                addMatrix(matrix, operand, &output);
-                writeMatrix(outputFile, output);
+                if(addMatrix(matrix, operand, &output) == 0)
+                {
+                    writeMatrix(outputFile, output);
+                    freeMatrix(&output);
+                }
+                freeMatrix(&matrix);
             }
+            freeMatrix(&operand);
+            fclose(outputFile);
             break;
 
         case 2:
             printf("Subtraction\n");
             readMatrix(operandFile, &operand);
+            outputFile = fopen("output.csv", "w");
+            fputs("row,col,values", outputFile);
             while(!feof(matrixFile))
             {
                 readMatrix(matrixFile, &matrix);
-                subMatrix(matrix, operand, &output);
-                writeMatrix(outputFile, output);
+                if(subMatrix(matrix, operand, &output) == 0)
+                {
+                    writeMatrix(outputFile, output);
+                    freeMatrix(&output);
+                }
+                freeMatrix(&matrix);
+                freeMatrix(&matrix);
             }
+            freeMatrix(&operand);
+            fclose(outputFile);
             break;
 
         case 3:
             printf("Scalar Multiplication\n");
             printf("Input scalar: ");
             float scalar = getfloat();
+            outputFile = fopen("output.csv", "w");
+            fputs("row,col,values", outputFile);
             while(!feof(matrixFile))
             {
                 readMatrix(matrixFile, &matrix);
                 scalarMatrix(matrix, scalar, &output);
                 writeMatrix(outputFile, output);
+                freeMatrix(&matrix);
+                freeMatrix(&output);
             }
+            fclose(outputFile);
             break;
 
         case 4:
             printf("Matrix Multiplication\n");
             readMatrix(operandFile, &operand);
+            outputFile = fopen("output.csv", "w");
+            fputs("row,col,values", outputFile);
             while(!feof(matrixFile))
             {
                 readMatrix(matrixFile, &matrix);
-                multiplyMatrix(matrix, operand, &output);
-                writeMatrix(outputFile, output);
+                if(multiplyMatrix(matrix, operand, &output) == 0)
+                {
+                    writeMatrix(outputFile, output);
+                    freeMatrix(&output);
+                }
+                freeMatrix(&matrix);
             }
+            freeMatrix(&operand);
+            fclose(outputFile);
             break;
 
         case 5:
             printf("Exponentiation\n");
             printf("Input the power(int): ");
             int power = getint();
+            outputFile = fopen("output.csv", "w");
+            fputs("row,col,values", outputFile);
             while(!feof(matrixFile))
             {
                 readMatrix(matrixFile, &matrix);
-                powerMatrix(matrix, power, &output);
-                writeMatrix(outputFile, output);
+                if(powerMatrix(matrix, power, &output) == 0)
+                {
+                    writeMatrix(outputFile, output);
+                    freeMatrix(&output);
+                }
+                freeMatrix(&matrix);
+                freeMatrix(&matrix);
+            }
+            fclose(outputFile);
+            break;
+
+        case 6:
+            printf("Read Matrix csv File\n");
+            printf("Input the file name: ");
+            char filename[20];
+            getstring(filename, 19);
+            FILE* csvFile = fopen(filename, "r");
+            if(csvFile == NULL)
+                return 1;
+            fgets(csvHeader, MAX_LINE, csvFile);
+            if(strcmp(csvHeader, "row,col,values\n") != 0)
+                return 1;
+            while(!feof(csvFile))
+            {
+                readMatrix(csvFile, &matrix);
+                printMatrix(matrix);
+                freeMatrix(&matrix);
             }
             break;
+
+        case 7:
+            printf("Create a new matrix csv file\n");
+            printf("Input the file name: ");
+            char newfile[20];
+            getstring(newfile, 19);
+            FILE* newCsv = fopen(newfile, "w");
+            fputs("row,col,values", newCsv);
+            char s[2];
+            while(1)
+            {
+                getMatrix(&matrix);
+                writeMatrix(newCsv, matrix);
+                select:
+                    printf("Add more?(Y/N): ");
+                    getstring(s, 1);
+                    if(s[0] == 'Y' || s[0] == 'y')
+                        continue;
+                    else if(s[0] == 'N' || s[0] == 'n')
+                    {
+                        fclose(newCsv);
+                        break;
+                    }
+                    else
+                    {
+                        printf("Bad Selection\n");
+                        goto select;
+                    }
+            }
+
+        case 8:
+            fclose(matrixFile);
+            fclose(operandFile);
+            return 0;
 
         default:
             printf("Invalid Selection");
     }
-
-    fclose(matrixFile);
-    fclose(operandFile);
-    fclose(outputFile);
-
-    return 0;
 }

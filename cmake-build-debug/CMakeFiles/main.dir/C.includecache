@@ -6,14 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/Users/muang/Desktop/Muang/CLionProjects/Matrix_Calculator/functions.c
-matrix.h
-/Users/muang/Desktop/Muang/CLionProjects/Matrix_Calculator/matrix.h
-stdio.h
--
-stdlib.h
--
-
 /Users/muang/Desktop/Muang/CLionProjects/Matrix_Calculator/main.c
 matrix.h
 /Users/muang/Desktop/Muang/CLionProjects/Matrix_Calculator/matrix.h
