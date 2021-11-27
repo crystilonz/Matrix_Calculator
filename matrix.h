@@ -1,6 +1,7 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 #include <stdio.h>
+#include <stdbool.h>
 
 /*!
  * Matrix c-structure
@@ -11,11 +12,6 @@ typedef struct Matrix
     int col;
     float** index;
 }Matrix;
-
-/*!
- * @brief Boolean enumeration. 0 = False, 1 = True
- */
-enum Bool{False, True};
 
 /*!
  * this function asks user for input and parse it into a float variable
@@ -61,7 +57,7 @@ void freeMatrix(Matrix* matrix_ptr);
  * @return enum Bool False if matrix initialisation failed
  * @see iniMatrix()
  */
-enum Bool checkMatrix(Matrix matrix);
+_Bool checkMatrix(Matrix matrix);
 
 /*!
  * This function asks for input from user to create a Matrix struct
@@ -83,7 +79,7 @@ void printMatrix(Matrix matrix);
  * @param base2 matrix to add
  * @param results_ptr pointer to the matrix which will contain the results. iniMatrix() is used to allocate memory.
  * @return 0 if function operates normally
- * @return -1 if matrices are incompatible
+ * @return 1 if matrices are incompatible
  * @see iniMatrix()
  */
 int addMatrix(Matrix base1, Matrix base2, Matrix* results_ptr);
@@ -96,7 +92,7 @@ int addMatrix(Matrix base1, Matrix base2, Matrix* results_ptr);
  * @param base2 operand matrix
  * @param results_ptr pointer to the matrix which will contain the results. iniMatrix() is used to allocate memory.
  * @return 0 if function operates normally
- * @return -1 if matrices are incompatible
+ * @return 1 if matrices are incompatible
  * @see iniMatrix()
  */
 int subMatrix(Matrix base1, Matrix base2, Matrix* results_ptr);
@@ -118,7 +114,7 @@ void copyMatrix(Matrix from_matrix, Matrix* to_ptr);
  * if matrices are incompatible results_ptr will be set to NULL.
  * @see iniMatrix()
  * @return 0 if function operates normally
- * @return -1 if matrices are incompatible
+ * @return 1 if matrices are incompatible
  */
 int multiplyMatrix(Matrix base, Matrix multiply, Matrix* results_ptr);
 
@@ -139,7 +135,7 @@ void scalarMatrix(Matrix base, float scalar, Matrix* results_ptr);
  * @param exponent power. Negative integers will be converted to a positive integer.
  * @param results_ptr pointer to the matrix which will contain the results. iniMatrix() is used to allocate memory.
  * @return 0 if function operates normally
- * @return -1 if matrix is not a square matrix
+ * @return 1 if matrix is not a square matrix
  */
 int powerMatrix(Matrix base, int exponent, Matrix* results_ptr);
 
@@ -151,13 +147,30 @@ int powerMatrix(Matrix base, int exponent, Matrix* results_ptr);
  * @see iniMatrix()
  * @see freeMatrix()
  */
-void readMatrix(FILE* csv, Matrix* matrix_ptr);
+int readMatrix(FILE* csv, Matrix* matrix_ptr);
 
 /*!
  * A function to write a matrix to a csv file.
  * @param csv File pointer to a csv file. File pointer will be moved forward by one line.
  * @param matrix matrix which will be written to a csv file.
+ * @return 0 if matrix is read successfully
+ * @return 1 if matrix cannot be read (dimension - value mismatch, etc.)
  */
 void writeMatrix(FILE* csv, Matrix matrix);
 
+_Bool checkSquare(Matrix base);
+
+int transposeMatrix(Matrix base, Matrix* results_ptr);
+
+float determinantMatrix(Matrix base);
+
+int minor(Matrix base, int row, int col, Matrix* results_ptr);
+
+float cofactor(Matrix base, int row, int col);
+
+int cofactorMatrix(Matrix base, Matrix* results_ptr);
+
+int adjugateMatrix(Matrix base, Matrix* results_ptr);
+
+int inverseMatrix(Matrix base, Matrix* results_ptr);
 #endif // MATRIX_H
