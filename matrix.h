@@ -152,25 +152,83 @@ int readMatrix(FILE* csv, Matrix* matrix_ptr);
 /*!
  * A function to write a matrix to a csv file.
  * @param csv File pointer to a csv file. File pointer will be moved forward by one line.
- * @param matrix matrix which will be written to a csv file.
+ * @param matrix Matrix which will be written to a csv file.
  * @return 0 if matrix is read successfully
  * @return 1 if matrix cannot be read (dimension - value mismatch, etc.)
  */
 void writeMatrix(FILE* csv, Matrix matrix);
 
+/*!
+ * A function to check if matrix is a square matrix.
+ * @param base The matrix to check.
+ * @return true if square matrix
+ * @return false if not a square matrix
+ */
 _Bool checkSquare(Matrix base);
 
+/*!
+ * A function to transpose matrix.
+ * @param base the base matrix
+ * @param results_ptr pointer to the matrix which will contain the results. iniMatrix() is used to allocate memory.
+ * @return 0 if function operates normally
+ */
 int transposeMatrix(Matrix base, Matrix* results_ptr);
 
+/*!
+ * A function to find determinant of a matrix.
+ * @param base the base matrix
+ * @return 1 if matrix is not a square matrix
+ * @return determinant of the matrix base
+ */
 float determinantMatrix(Matrix base);
 
+/*!
+ * A function to find a minor of the matrix
+ * @param base the base matrix
+ * @param row the row of the minor
+ * @param col the column of the minor
+ * @param results_ptr pointer to the matrix which will contain the results. iniMatrix() is used to allocate memory.
+ * @return 0 if function operates normally
+ * @return 1 if matrix is not a square matrix or the size is too small
+ */
 int minor(Matrix base, int row, int col, Matrix* results_ptr);
 
+/*!
+ * A function to find the cofactor of an index in the matrix.
+ * @param base the base matrix
+ * @param row the row of the cofactor
+ * @param col the column of the cofactor
+ * @param results_ptr pointer to the matrix which will contain the results. iniMatrix() is used to allocate memory.
+ * @return 0 if function operates normally
+ * @return 1 if matrix is not a square matrix or the size is too small
+ */
 float cofactor(Matrix base, int row, int col);
 
+/*!
+ * A function to find the matrix of cofactors.
+ * @param base the base matrix
+ * @param results_ptr pointer to the matrix which will contain the results. iniMatrix() is used to allocate memory.
+ * @return 0 if function operates normally
+ * @return 1 if matrix is not a square matrix or the size is too small
+ */
 int cofactorMatrix(Matrix base, Matrix* results_ptr);
 
+/*!
+ * A function to find the adjugate matrix.
+ * @param base the base matrix
+ * @param results_ptr pointer to the matrix which will contain the results. iniMatrix() is used to allocate memory.
+ * @return 0 if function operates normally
+ * @return 1 if matrix is not a square matrix
+ */
 int adjugateMatrix(Matrix base, Matrix* results_ptr);
 
+/*!
+ * A function to find the inverse matrix.
+ * @param base the base matrix
+ * @param results_ptr pointer to the matrix which will contain the results. iniMatrix() is used to allocate memory.
+ * @return 0 if function operates normally
+ * @return 1 if matrix is not a square matrix
+ * @return 2 if matrix is a singular matrix
+ */
 int inverseMatrix(Matrix base, Matrix* results_ptr);
 #endif // MATRIX_H
