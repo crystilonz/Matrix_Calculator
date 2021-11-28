@@ -113,6 +113,11 @@ void calculator(Matrix input)
                     printf("Matrix must be a square matrix!\n");
                     break;
                 }
+                if(input.row < 2)
+                {
+                    printf("Matrix is too small\n");
+                    break;
+                }
                 cofactorMatrix(input, &resultsMatrix);
                 printf("The cofactor matrix is:\n");
                 printMatrix(resultsMatrix);
