@@ -22,7 +22,9 @@ using the following operations:
 - Reading .csv files onto the console matrix by matrix
 
 #Technical Information
+
 ###CSV files
+
 Each matrix can be represented by its **dimension** (row x column) and the **values** in each cell.
 The csv file for this program is thus in this format.
 
@@ -44,6 +46,7 @@ as there are lines(excluding the header).
 
 
 ###Console Matrix Notation
+
 Common mathematical notation for each cell in the matrix is as:
 
     [a11, a12, a13]
@@ -59,6 +62,7 @@ notation for the console calculator and creating the csv file.
 
 
 ###Supplying the Second Operand
+
 While the program is able to process the matrices in a csv file in bulk, the second operand matrix is limited to 
 a single matrix.
 
@@ -148,6 +152,7 @@ which is
 
 
 ###Output Filename
+
 The output file name is different depending on the selected function.
 
 | Command | Output filename|
@@ -166,6 +171,7 @@ The output file name is different depending on the selected function.
 
 
 ###Output File Characteristics
+
 The output files are in the same csv form are guaranteed to have the same number of lines as the first operand file.
 In case that there are:
 - Incompatible matrices (Dimension mismatch)
@@ -326,6 +332,7 @@ with the same file. Multiplying the matrices with another matrix of 3x3 dimensio
     Failed to read matrix
 
 ###Determinant
+
 Since the result of the determinant is not a matrix, the output file is in this form instead:
 > A determinant of a matrix is only defined for a square matrix.
     
