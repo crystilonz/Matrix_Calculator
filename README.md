@@ -1,6 +1,6 @@
 # Matrix Calculator
 
-###Contents
+### Contents
 - [Brief](#brief)
 - [Capabilities](#capabilities)
 - [Technical Information](#technical-information)
