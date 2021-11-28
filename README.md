@@ -21,9 +21,10 @@ using the following operations:
 - Creating .csv files containing matrices
 - Reading .csv files onto the console matrix by matrix
 
-#Technical Information
 
-###CSV files
+# Technical Information
+
+### CSV files
 
 Each matrix can be represented by its **dimension** (row x column) and the **values** in each cell.
 The csv file for this program is thus in this format.
@@ -45,7 +46,7 @@ Each matrix will be contained within a single row in the csv file and the csv fi
 as there are lines(excluding the header).
 
 
-###Console Matrix Notation
+### Console Matrix Notation
 
 Common mathematical notation for each cell in the matrix is as:
 
@@ -53,15 +54,14 @@ Common mathematical notation for each cell in the matrix is as:
     [a21, a22, a23]
     [a31, a32, a33]
 
-for a 3x3 matrix. The general form is
+for a 3x3 matrix. 
 
-    aij
-
+The general form is `aij` 
 in which `i` is the *row* and `j` is the *column*. The console command will follow this mathematical
 notation for the console calculator and creating the csv file.
 
 
-###Supplying the Second Operand
+### Supplying the Second Operand
 
 While the program is able to process the matrices in a csv file in bulk, the second operand matrix is limited to 
 a single matrix.
@@ -151,7 +151,7 @@ which is
     [    -1.0,    -1.0,    4.0 ]
 
 
-###Output Filename
+### Output Filename
 
 The output file name is different depending on the selected function.
 
@@ -170,7 +170,7 @@ The output file name is different depending on the selected function.
 | Creating .csv file | *user-defined* |
 
 
-###Output File Characteristics
+### Output File Characteristics
 
 The output files are in the same csv form are guaranteed to have the same number of lines as the first operand file.
 In case that there are:
@@ -331,7 +331,7 @@ with the same file. Multiplying the matrices with another matrix of 3x3 dimensio
     
     Failed to read matrix
 
-###Determinant
+### Determinant
 
 Since the result of the determinant is not a matrix, the output file is in this form instead:
 > A determinant of a matrix is only defined for a square matrix.
