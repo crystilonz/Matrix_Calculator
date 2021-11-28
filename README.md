@@ -1,5 +1,16 @@
 # Matrix Calculator
 
+###Contents
+- [Brief](#brief)
+- [Capabilities](#capabilities)
+- [Technical Information](#technical-information)
+    - [CSV files](#csv-files)
+    - [Console Matrix Notation](#console-matrix-notation)
+    - [Supplying the Second Operand](#supplying-the-second-operand)
+    - [Output Filename](#output-filename)
+    - [Output File Characteristics](#output-file-characteristics)
+    - [Determinant](#determinant)
+
 # Brief
 This program is a C program to do matrix arithmetics via both console and .csv files
 
