@@ -54,10 +54,9 @@ Common mathematical notation for each cell in the matrix is as:
     [a21, a22, a23]
     [a31, a32, a33]
 
-for a 3x3 matrix. The general form is
+for a 3x3 matrix. 
 
-    aij
-
+The general form is `aij` 
 in which `i` is the *row* and `j` is the *column*. The console command will follow this mathematical
 notation for the console calculator and creating the csv file.
 
