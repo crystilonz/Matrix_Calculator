@@ -1,0 +1,276 @@
+PSEUDOCODE
+
+getfloat()
+    declare int character
+    declare bufferString as char array(string)
+    declare int i as iterator
+    loop: getchar() to get input from user one character at a time until \n is reached
+        store character in bufferString
+        increase i (iterator)
+        if i >= MAX_INPUT (length exceeded)
+            break from loop
+    pad bufferString with \0 to make it a proper string
+    convert bufferString to float and return
+
+
+getint()
+    declare int character
+    declare bufferString as char array(string)
+    declare int i as iterator
+    loop: getchar() to get input from user one character at a time until \n is reached
+        store character in bufferString
+        increase i (iterator)
+        if i >= MAX_INPUT (length exceeded)
+            break from loop
+    pad bufferString with \0 to make it a proper string
+    convert bufferString to integer and return
+
+
+getstring(char* string, int len)
+    loop: get characters one by one until reach \n
+        store character in a buffer string
+        check if received max number of characters then break from loop
+    pad string with \0 to make it a string
+
+
+checkMatrix(Matrix input)
+    if row <= 0 or col <= 0 then
+        display invalid row/col
+        return false
+    if index is empty(NULL) then
+        display allocation error
+        return false
+    check if any row(*index) is empty(NULL), if any row is empty display allocation error and return false
+    otherwise return true
+
+
+iniMatrix(Matrix* matrix_ptr, int row, int col)
+    set matrix row to row
+    set matrix col to col
+    allocate memory for matrix index(containing row pointers)
+    allocate memory for row pointers(pointing to individual numbers -- float)
+    checkMatrix() to check if matrix is initiated properly
+        if not exit program
+
+
+freeMatrix(Matrix* matrix_ptr)
+    free individual row pointers
+    free index pointer
+
+
+getMatrix(Matrix* matrix_ptr)
+    ask user for number of rows
+    ask number for number of columns
+    initiate matrix with iniMatrix
+    ask user to input each individual number
+
+
+printMatrix(Matrix matrix)
+    print a new line
+    loop: for each row
+        print "["
+        for each column until the last column
+            print each number followed by ","
+        (last column) print the number followed by "]"
+    print a new line
+
+
+addMatrix(Matrix base1, Matrix base2, Matrix* results_ptr)
+    if the rows or the columns aren't equal
+        return 1 (invalid)
+    allocate memory with iniMatrix
+    for each row
+        for each column
+            results = base1 + base2 in the same cell
+    return 0 (properly functioning)
+
+
+subMatrix(Matrix base1, Matrix base2, Matrix* results_ptr)
+    if the rows or the columns aren't equal
+        return 1 (invalid)
+    allocate memory with iniMatrix
+    for each row
+        for each column
+            results = base1 - base2 in the same cell
+    return 0 (properly functioning)
+
+
+copyMatrix(Matrix from_matrix, Matrix* to_ptr)
+    allocate memory with iniMatrix
+    for each row
+        for each column
+            copy number in each cell
+
+
+multiplyMatrix(Matrix base, Matrix multiply, Matrix* results_ptr)
+    if first column is not equal to second row
+        return 1 (invalid)
+    declare float buffer
+    allocate memory with iniMatrix
+    for each first matrix row
+        for each second matrix column
+            set buffer = 0
+            for each first matrix column
+                buffer +=
+
+
+scalarMatrix(Matrix base, float scalar, Matrix* results_ptr)
+    allocate memory with iniMatrix
+    for each cell
+        multiply value of cell by scalar
+
+
+powerMatrix(Matrix base, int exponent, Matrix* results_ptr)
+    if matrix is not square matrix
+        return 1 (invalid)
+    if exponent = 0
+        allocate memory with iniMatrix
+        return identity matrix
+    else (exponent != 0)
+        change exponent to absolute value (error check)
+        create a buffer matrix and copy the base matrix into it
+        loop [exponent] amount of times:
+            multiply the buffer matrix with the base and store it in results
+            free bufferMatrix
+            copy the matrix from results to buffer
+            free results
+        copy buffer to results
+        free buffer
+
+
+transposeMatrix(Matrix base, Matrix* results_ptr)
+    allocate memory with iniMatrix (swap row# and column#)
+    for each cell
+        results[i][j] = base[j][i] (transpose definition)
+
+
+checkSquare(Matrix base)
+    check if matrix is a square matrix >> yes = true // no = false
+
+
+determinantMatrix(Matrix base)
+    if matrix is not square matrix
+        alert and return 1
+    if matrix is 1x1
+        return the value (determinant = value)
+    else (larger matrices)
+        find determinant with cofactor expansion method on the first row
+        (det += base.index[0][j] * cofactor(base, 1, j + 1))
+        return determinant
+
+
+minor(Matrix base, int row, int col, Matrix* results_ptr)
+    if matrix is not square matrix
+        alert and return 1 (invalid)
+    if matrix is 1x1
+        alert that matrix is too small and return 1 (invalid)
+    allocate memory with iniMatrix(with one fewer row and one fewer column)
+    for each row
+        for each column
+            if cell is on the cut column or cut row
+                skip
+            else if in upper left quadrant
+                put in same cell
+            else if in upper right quadrant
+                put with col - 1
+            else if in lower left quadrant
+                put with row - 1
+            else if in lower right quadrant
+                put with row - 1 and col - 1
+    return 0
+
+
+cofactor(Matrix base, int row, int col)
+    if matrix is not square matrix
+        alert and return 1 (invalid)
+    if matrix is 1x1
+        alert that matrix is too small and return 1 (invalid)
+    find component part ( = (-1)^(row + col))
+    find minor matrix of that cell
+    find determinent of the minor matrix. store in output
+    free memory allocated from minorMatrix function
+    return output
+
+
+cofactorMatrix(Matrix base, Matrix* results_ptr)
+    if matrix is not square matrix
+        alert and return 1 (invalid)
+    if matrix is 1x1
+        alert that matrix is too small and return 1 (invalid)
+    allocate memory with iniMatrix
+    for each cell
+        find cofactor of that cell and put it in results
+    return 0
+
+
+adjugateMatrix(Matrix base, Matrix* results_ptr)
+    if matrix is not square matrix
+        alert and return 1 (invalid)
+    if matrix is 1x1 (special case)
+        allocate memory with iniMatrix
+        if non-zero matrix --> put [1]. if zero matrix --> put [0]
+        return 0
+    declare buffer matrix
+    allocate memory for results
+    find cofactor matrix and put it in buffer
+    transpose the buffer and put it in results
+    free buffer
+    return 0
+
+
+inverseMatrix(Matrix base, Matrix* results_ptr)
+    if matrix is not square matrix
+        alert and return 1 (invalid)
+    if determinant of the matrix = 0
+        return 2 for singular matrix
+    if matrix is 1x1
+        allocate memory with iniMatrix
+        put [1/value] in the results
+    declare buffer
+    find adjugate matrix and put it in buffer
+    multiply the entire matrix by 1/det
+    free buffer
+    return 0
+
+
+readMatrix(FILE* csv, Matrix* matrix_ptr)
+    declare line buffer to store each line
+    declare a character pointer to iterate
+    read a line from the csv
+
+    read first number and convert to integer
+    if read row <= 0
+        return 1 for error
+
+    if next character is not ","
+        return 1 for error
+
+    move the iterator pointer forward
+    read second number and convert to integer
+    if read column <= 0
+        return 1 for error
+
+    if next character is not ","
+        return 1 for error
+
+    move iterator forward
+    allocate memory with iniMatrix
+    for each cell
+        read the number from the line
+        if the seperator between number is ";"
+            move the iterator forward
+        else
+            free the allocated memory
+            return 1 for error
+    return 0
+
+
+writeMatrix(FILE* csv, Matrix matrix)
+    write new line to the file
+    write row to the file
+    write ","
+    write column
+    write ","
+    for each cell in the matrix
+        write the value
+        write ";"
